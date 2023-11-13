@@ -1,0 +1,26 @@
+version: "3.3"
+
+services:
+  movies_server:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+      - meilisearch
+    restart: always
+    ports:
+      - "3000:3000"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+  
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    volumes:
+      - ./meilisearch:/meili_data
+    ports:
+      - "7700:7700"
